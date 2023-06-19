@@ -32,7 +32,7 @@ jobs:
       run: dotnet pack ./src/GithubNugetTest.DerivedPackage/GithubNugetTest.DerivedPackage.csproj --configuration Release --no-build --output ./src/GithubNugetTest.DerivedPackage/bin/Release
 
     - name: NuGet Push
-      run: dotnet nuget push "D:\a\GithubNugetTest.DerivedPackage\src\GithubNugetTest.DerivedPackage\bin\Release\*.nupkg" --source "https://nuget.pkg.github.com/modulery/index.json" --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet nuget push ".\src\GithubNugetTest.DerivedPackage\bin\Release\*.nupkg" --source "https://nuget.pkg.github.com/modulery/index.json" --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }}
       
     - name: Print folder contents
       if: ${{ failure() }}
