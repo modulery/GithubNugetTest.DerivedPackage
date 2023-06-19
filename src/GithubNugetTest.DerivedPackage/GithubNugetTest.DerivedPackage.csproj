@@ -1,13 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Company>Moduler.Yazilim</Company>
+		<PackageId>GithubNugetTest.DerivedPackage</PackageId>
+		<Version>1.0.1</Version>
+		<Authors>Mesut Tasci</Authors>
+		<Descriptions>Deneme</Descriptions>
+		<RepositoryUrl>https://github.com/modulery/GithubNugetTest.DerivedPackage</RepositoryUrl>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="GithubNugetTest.BasePackage" Version="1.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="GithubNugetTest.BasePackage" Version="1.0.1" />
+	</ItemGroup>
 
 </Project>

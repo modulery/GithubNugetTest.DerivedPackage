@@ -1,7 +1,4 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: 'Build, Pack, Push'
 
 on:
   push:
@@ -12,17 +9,28 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
+
+    - name: Add github source
+      run: dotnet nuget add source https://nuget.pkg.github.com/modulery/index.json -n github -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_TOKEN }} --store-password-in-clear-text
+
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src/GithubNugetTest.DerivedPackage/GithubNugetTest.DerivedPackage.csproj
+
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build ./src/GithubNugetTest.DerivedPackage/GithubNugetTest.DerivedPackage.csproj --configuration Release --no-restore
+
+    - name: Pack
+      run: dotnet pack ./src/GithubNugetTest.DerivedPackage/GithubNugetTest.DerivedPackage.csproj --configuration Release --no-build --output ./src/GithubNugetTest.DerivedPackage/bin/Release
+
+    - name: NuGet Push
+      run: dotnet nuget push "./src/GithubNugetTest.DerivedPackage/bin/Release/*.nupkg" --source "https://nuget.pkg.github.com/modulery/index.json" --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }}
+      
